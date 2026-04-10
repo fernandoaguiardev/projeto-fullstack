@@ -1,0 +1,91 @@
+testar a sua aplicação.
+
+1. Controlador de Produto:
+
+Este controlador é responsável por gerenciar as operações relacionadas aos produtos, como criar, ler, atualizar e deletar (CRUD). No contexto da nossa aplicação, ele interagirá com o banco de dados para armazenar informações sobre cada produto, como nome, descrição, preço e código de barras.
+
+2. Controlador de Fornecedor:
+
+Similar ao controlador de produto, o controlador de fornecedor gerencia as operações relacionadas aos fornecedores. Ele cuida dos detalhes como nome do fornecedor, CNPJ, endereço e contato.
+
+3. Controlador de Associação Produto/Fornecedor:
+
+Este é um controlador especializado que lida com a relação entre produtos e fornecedores. Sabendo que um produto pode ser fornecido por vários fornecedores e um fornecedor pode oferecer vários produtos, essa relação é muitas vezes chamada de "muitos para muitos". O controlador de associação permite associar um produto a um fornecedor, desassociá-los e consultar quais produtos são fornecidos por um determinado fornecedor (e vice-versa).
+
+Testando com o Insomnia:
+
+Uma vez que o backend esteja operacional, é vital testar suas rotas e lógica para garantir que tudo funcione conforme o esperado. O Insomnia é uma ferramenta que permite fazer requisições HTTP para seu servidor, tornando mais fácil testar, organizar e reutilizar as chamadas para seu backend.
+
+ETAPA 3 - Preparando o ambiente de desenvolvimento e Construção dos Artefatos no Frontend
+
+Passo 1 - Configuração das Ferramentas
+
+Iremos utilizar para o desenvolvimento frontend e backend da mesma IDE, ou seja, o Visual Studio Code. Os passos abaixo já foram realizados quando da configuração do projeto Backend, então você pode pular caso já tenha executado.
+
+1. Faça a instalação do Visual Studio Code disponível para download em: https://code.visualstudio.com/
+
+2. Faça a instalação do node.js e o npm disponível para download em: https://nodejs.org/en. Recomendamos baixar a versão LTS (Long Term Support) que, embora seja mais antiga, é bem mais estável.
+
+3. (opcional) Caso queira utilizar um framework react.js, recomendamos utilizar o next.js (https://nextjs.org/). A instalação é bem simples, siga o roteiro disponível em: https://nextjs.org/docs/getting-started/installation
+
+Com o Visual Studio Code e o Node.js instalados você está pronto para começar a desenvolver, porém precisamos pensar em um desenvolvimento moderno onde vários desenvolvedores possam trabalhar juntos em seu projeto bem como, quem sabe, a criação de uma esteira de CI/CD (se não souber o que é CI/CD não se preocupe, ainda vamos falar disso em disciplinas futuras).
+
+Se você ainda não tem uma conta no GitHub (https://github.com/),  entre no site e crie a sua conta gratuitamente. Ter um perfil público no GitHub pode ser uma ferramenta valiosa no processo de recrutamento para várias vagas relacionadas à tecnologia, especialmente para desenvolvedores. Nossa sugestão é que deixe este projeto público para que ele possa se somar a seu portfólio.
+
+Após realizarmos a instalação e criarmos a nossa conta no github, está na hora de juntar tudo e iniciarmos o nosso projeto. Vamos iniciar configurando a integração do seu Visual Studio com o Github. Essa é uma configuração um pouquinho "mais complicada” então sugiro que assista ao vídeo abaixo:
+
+https://www.youtube.com/watch?v=7cNP3AE49Bg
+
+Passo 2 - Iniciando um novo projeto ReactJs
+
+Agora temos tudo instalado então vamos criar o nosso projeto. Após configurar o github e o VisualStudio code, siga o roteiro abaixo para criar o primeiro projeto em node.js:
+
+1. Abra “Prompt de Comando” do Windows e acesse a pasta onde irá inicializar o seu projeto. Se sua máquina for Linux ou Mac você deve adaptar a execução deste passo.
+
+2. Inicialize um novo projeto React.js:
+
+npx create-react-app nome-do-seu-projeto
+
+3. Abra o VisualStudio Code e selecione a pasta que foi criada no passo anterior.
+
+4. Crie ou altere o arquivo README.md com o seguinte conteúdo:
+
+FACULDADE GRAN (https://faculdade.grancursosonline.com.br/)
+
+Projeto Disciplina Projeto Integrador
+
+5. No Visual Studio abra a aba Terminal e inicie o servidor de desenvolvimento:
+
+npm start
+
+Este comando iniciará o servidor de desenvolvimento e abrirá automaticamente o seu novo aplicativo React no navegador.
+
+Esta é uma boa hora para configurar o git neste novo projeto e realizar um commit
+
+DICA: Instalar Extensões Úteis no Visual Studio Code
+
+Para facilitar o desenvolvimento com React, você pode instalar algumas extensões no Visual Studio Code:
+
+ESLint: Ajuda a encontrar e corrigir problemas no seu código JavaScript.
+
+Prettier - Code formatter: Formata automaticamente o seu código para mantê-lo consistente.
+
+Simple React Snippets: Fornece snippets de código para React.
+
+Para instalar extensões, clique no ícone de extensões na barra lateral esquerda (ou pressione Ctrl+Shift+X), procure as extensões desejadas e clique em "Install".
+
+Passo 3 - Construção dos Artefatos no Frontend
+
+O frontend, muitas vezes referido como o "lado do cliente", é responsável por interagir com o usuário da aplicação, portanto aspectos como usabilidade e experiência devem ser observados quando de sua construção. Neste projeto iremos construir 3 páginas conforme detalhado abaixo que deverão consumir o backend construído na atividade anterior. 
+
+1. Página de Produto:
+
+Esta página é responsável por gerenciar as operações relacionadas aos produtos, como criar, ler, atualizar e deletar (CRUD). No contexto da nossa aplicação, ela irá interagir com o backend para armazenar informações sobre cada produto, como nome, descrição, preço e código de barras.
+
+2. Página de Fornecedor:
+
+Similar à página de produto, a página de fornecedor gerencia as operações relacionadas aos fornecedores. Ele cuida dos detalhes como nome do fornecedor, CNPJ, endereço e contato.
+
+3. Página de Associação Produto/Fornecedor:
+
+Esta página lida com a relação entre produtos e fornecedores. Sabendo que um produto pode ser fornecido por vários fornecedores e um fornecedor pode oferecer vários produtos, essa relação é muitas vezes chamada de "muitos para muitos". A página de associação permite associar um produto a um fornecedor, desassociá-los e consultar quais produtos são fornecidos por um determinado fornecedor (e vice-versa).

@@ -1,0 +1,527 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: API specification - Sistema de Controle de Estoque
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: fornecedores
+    description: Operações de fornecedores
+  - name: produtos
+    description: Operações de produtos
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+
+  /fornecedores:
+    get:
+      operationId: listFornecedores
+      tags: [fornecedores]
+      summary: Listar fornecedores
+      responses:
+        "200":
+          description: Lista de fornecedores
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Fornecedor"
+    post:
+      operationId: createFornecedor
+      tags: [fornecedores]
+      summary: Cadastrar fornecedor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateFornecedorBody"
+      responses:
+        "201":
+          description: Fornecedor cadastrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Fornecedor"
+        "409":
+          description: CNPJ já cadastrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /fornecedores/{id}:
+    get:
+      operationId: getFornecedor
+      tags: [fornecedores]
+      summary: Buscar fornecedor
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Fornecedor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Fornecedor"
+        "404":
+          description: Não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    put:
+      operationId: updateFornecedor
+      tags: [fornecedores]
+      summary: Atualizar fornecedor
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateFornecedorBody"
+      responses:
+        "200":
+          description: Fornecedor atualizado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Fornecedor"
+        "404":
+          description: Não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "409":
+          description: CNPJ já cadastrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      operationId: deleteFornecedor
+      tags: [fornecedores]
+      summary: Excluir fornecedor
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Excluído
+        "404":
+          description: Não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /produtos:
+    get:
+      operationId: listProdutos
+      tags: [produtos]
+      summary: Listar produtos
+      parameters:
+        - name: categoria
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Lista de produtos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Produto"
+    post:
+      operationId: createProduto
+      tags: [produtos]
+      summary: Cadastrar produto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateProdutoBody"
+      responses:
+        "201":
+          description: Produto cadastrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Produto"
+        "409":
+          description: Código de barras já cadastrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /produtos/stats:
+    get:
+      operationId: getProdutoStats
+      tags: [produtos]
+      summary: Estatísticas de estoque
+      responses:
+        "200":
+          description: Estatísticas
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EstoqueStats"
+
+  /produtos/{id}:
+    get:
+      operationId: getProduto
+      tags: [produtos]
+      summary: Buscar produto
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Produto com fornecedores associados
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProdutoComFornecedores"
+        "404":
+          description: Não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    put:
+      operationId: updateProduto
+      tags: [produtos]
+      summary: Atualizar produto
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateProdutoBody"
+      responses:
+        "200":
+          description: Produto atualizado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Produto"
+        "404":
+          description: Não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      operationId: deleteProduto
+      tags: [produtos]
+      summary: Excluir produto
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Excluído
+        "404":
+          description: Não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /produtos/{id}/fornecedores:
+    post:
+      operationId: associarFornecedor
+      tags: [produtos]
+      summary: Associar fornecedor ao produto
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AssociarFornecedorBody"
+      responses:
+        "201":
+          description: Fornecedor associado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProdutoComFornecedores"
+        "409":
+          description: Fornecedor já associado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /produtos/{id}/fornecedores/{fornecedorId}:
+    delete:
+      operationId: desassociarFornecedor
+      tags: [produtos]
+      summary: Desassociar fornecedor do produto
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: fornecedorId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Fornecedor desassociado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProdutoComFornecedores"
+        "404":
+          description: Não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+
+    Fornecedor:
+      type: object
+      properties:
+        id:
+          type: integer
+        nomeEmpresa:
+          type: string
+        cnpj:
+          type: string
+        endereco:
+          type: string
+        telefone:
+          type: string
+        email:
+          type: string
+        contatoPrincipal:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - nomeEmpresa
+        - cnpj
+        - endereco
+        - telefone
+        - email
+        - contatoPrincipal
+        - createdAt
+
+    CreateFornecedorBody:
+      type: object
+      properties:
+        nomeEmpresa:
+          type: string
+        cnpj:
+          type: string
+        endereco:
+          type: string
+        telefone:
+          type: string
+        email:
+          type: string
+        contatoPrincipal:
+          type: string
+      required:
+        - nomeEmpresa
+        - cnpj
+        - endereco
+        - telefone
+        - email
+        - contatoPrincipal
+
+    Produto:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        codigoBarras:
+          type: ["string", "null"]
+        descricao:
+          type: string
+        quantidadeEstoque:
+          type: integer
+        categoria:
+          type: string
+        dataValidade:
+          type: ["string", "null"]
+        imagemUrl:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - nome
+        - descricao
+        - quantidadeEstoque
+        - categoria
+        - createdAt
+
+    ProdutoComFornecedores:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        codigoBarras:
+          type: ["string", "null"]
+        descricao:
+          type: string
+        quantidadeEstoque:
+          type: integer
+        categoria:
+          type: string
+        dataValidade:
+          type: ["string", "null"]
+        imagemUrl:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+          format: date-time
+        fornecedores:
+          type: array
+          items:
+            $ref: "#/components/schemas/Fornecedor"
+      required:
+        - id
+        - nome
+        - descricao
+        - quantidadeEstoque
+        - categoria
+        - createdAt
+        - fornecedores
+
+    CreateProdutoBody:
+      type: object
+      properties:
+        nome:
+          type: string
+        codigoBarras:
+          type: ["string", "null"]
+        descricao:
+          type: string
+        quantidadeEstoque:
+          type: integer
+        categoria:
+          type: string
+        dataValidade:
+          type: ["string", "null"]
+        imagemUrl:
+          type: ["string", "null"]
+      required:
+        - nome
+        - descricao
+        - categoria
+
+    AssociarFornecedorBody:
+      type: object
+      properties:
+        fornecedorId:
+          type: integer
+      required:
+        - fornecedorId
+
+    EstoqueStats:
+      type: object
+      properties:
+        totalProdutos:
+          type: integer
+        totalFornecedores:
+          type: integer
+        produtosEstoqueBaixo:
+          type: integer
+        categorias:
+          type: integer
+      required:
+        - totalProdutos
+        - totalFornecedores
+        - produtosEstoqueBaixo
+        - categorias
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
